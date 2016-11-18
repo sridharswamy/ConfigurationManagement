@@ -1,4 +1,4 @@
-# ConfigurationManagement
+# Configuration Management using Ansible
 
 ###How to run
 1. Create two servers:
