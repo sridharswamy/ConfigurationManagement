@@ -1,0 +1,38 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Installing npm ..
+      apt: name=npm update_cache=yes state=latest
+
+    - name: Installing nodejs ..
+      apt: name=nodejs-legacy update_cache=yes state=latest
+
+    - name: Installing Forever ..
+      npm: name=forever global=yes production=yes
+
+    - name: Installing Git ..
+      apt: name=git update_cache=yes state=latest
+
+    - name: Cloning Git repo at https://github.com/CSC-DevOps/App.git
+      git: repo=https://github.com/CSC-DevOps/App.git dest=/home/vagrant/App accept_hostkey=yes
+
+    - name: Installing npm package ..
+      npm: path=/home/vagrant/App
+
+    - name: Running the application ..
+      command: forever start main.js 8000 chdir=/home/vagrant/App
+
+    - name: Ensuring that the latest version of bash is running ..
+      apt: name=bash update_cache=yes state=latest
+
+    - name: Ensuring that the latest version of openssl is running ..
+      apt: name=openssl update_cache=yes state=latest
+
+    - name: Ensuring that the latest version of openssh-client is running ..
+      apt: name=openssh-client update_cache=yes state=latest
+
+    - name: Ensuring that the latest version of openssh-server is running ..
+      apt: name=openssh-server update_cache=yes state=latest
+
+    - name: Cleaning up content in /tmp/* ..
+      shell: /bin/rm -rf /tmp/*
